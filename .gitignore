@@ -1,0 +1,8 @@
+# Build artifacts
+dist/
+build/
+*.dmg
+*.app
+.DS_Store
+node_modules/
+.tmp/

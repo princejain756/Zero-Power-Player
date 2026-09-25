@@ -1,6 +1,6 @@
 {
-  "name": "Study MP3 Player • Low Power Projector Deck",
-  "short_name": "StudyPlayer",
+  "name": "Zero-Power Player • Study Audio Deck",
+  "short_name": "ZeroPower",
   "description": "Ultra low-power MP3 player and ambient soundscape deck for studying on a projector.",
   "start_url": "./index.html",
   "display": "standalone",
@@ -8,9 +8,10 @@
   "theme_color": "#fbfbfa",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50%' y='55%' font-size='50' font-family='sans-serif' fill='white' dominant-baseline='middle' text-anchor='middle'>♫</text></svg>",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml"
+      "src": "icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
