@@ -6,3 +6,6 @@ build/
 .DS_Store
 node_modules/
 .tmp/
+.env
+*.p8
+*.pkg
