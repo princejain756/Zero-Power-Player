@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="icon.png" width="140" height="140" alt="Zero-Power Player Logo" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.12);">
+  <img src="https://raw.githubusercontent.com/princejain756/Zero-Power-Player/main/icon.png" width="140" height="140" alt="Zero-Power Player Logo" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.12);">
 </p>
 
-<h1 align="center">⚡ Zero-Power Player</h1>
+<h1 align="center">Zero-Power Player</h1>
 
 <p align="center">
   <strong>Ultra-low-power local audio deck & ambient focus mixer built for projectors, deep study sessions, and zero battery drain.</strong>
@@ -17,9 +17,9 @@
 
 ---
 
-## 💡 Why "Zero-Power"?
+## Why "Zero-Power"?
 
-Traditional streaming and music desktop apps (Spotify, Electron players) constantly consume **5–15% CPU**, keep the GPU awake, trigger frequent garbage collection cycles, and drain 15–25W of MacBook battery over a study session.
+Traditional streaming and desktop music players constantly consume **5–15% CPU**, keep the GPU awake, trigger frequent garbage collection cycles, and drain 15–25W of MacBook battery over a study session.
 
 **Zero-Power Player** is re-engineered from the ground up for negligible energy impact:
 
@@ -30,24 +30,42 @@ Traditional streaming and music desktop apps (Spotify, Electron players) constan
 
 ---
 
-## ✨ Features
+## Science of Binaural Beats
 
-- 🎧 **Offline Drag & Drop Library**: Drop MP3, AAC, M4A, FLAC, or WAV files. They are stored locally in browser **IndexedDB** — your study playlist is preserved across reboots with zero re-importing.
-- 📽️ **Projector Wall Mode (Hotkey `F`)**: Fullscreen, high-contrast, distraction-free study display showing your Pomodoro countdown and track title readable from across the room.
-- 🧠 **Science-Backed Binaural Beats**:
-  - **⚡ Gamma (40 Hz)**: Peak concentration & high-level problem solving (*Scientific Reports / Nature*)
-  - **📘 Beta (16 Hz)**: Active study, logic, and sentence comprehension (*Psychological Research 2023*)
-  - **🌊 Alpha (10 Hz)**: Flow state, relaxed alertness, and anxiety reduction (*PubMed Reviews*)
-  - **🌙 Theta (6 Hz)**: Deep meditation, memory consolidation & calm
-  - **🌌 Delta (2 Hz)**: Restorative recovery and sleep
-- 🌊 **Layered Ambient Soundscapes**: Independent volume controls for Brown Noise and Soft Rain that blend seamlessly underneath your music.
-- ⏱️ **Integrated Pomodoro Timer**: 25/5 min, 50/10 min, and Custom study intervals with non-jarring two-tone harmonic audio chimes.
-- 🎨 **Multiple Themes**: Instant toggle between **Projector Studio Light** and gentle **Warm Paper**.
-- 📦 **100% Client-Side & Private**: Zero telemetry, zero analytics, zero external API requests. Your music never leaves your device.
+Binaural beats are an auditory illusion created when two slightly different sound frequencies are played separately into each ear, leading the brain to perceive a single pulsing beat at the mathematical frequency difference.
+
+### How Binaural Beats Work
+- **The Process**: If your left ear hears 400 Hz and your right ear hears 410 Hz, your brain perceives a beat at 10 Hz.
+- **Brainwave Entrainment**: This hypothesis suggests that external sound frequencies can encourage your brain's electrical activity to match that frequency.
+- **Frequency Bands**: These perceived beats typically range from 1 Hz to 40+ Hz, aligning with natural human brainwave states like delta, theta, alpha, beta, and gamma.
+
+### Research Findings & Frequency Table
+
+| Band | Frequency | Target State | Research Backing |
+| :--- | :--- | :--- | :--- |
+| **Gamma** | 40 Hz | Peak Focus & Problem Solving | Research in *Scientific Reports (Nature)* notes gamma frequencies trigger significant neural entrainment linked to heightened concentration. [[Nature 2025](https://www.nature.com/articles/s41598-025-88517-z)] |
+| **Beta** | 14–20 Hz (16 Hz) | Active Study & Logic | A 2023 study in *Psychological Research* demonstrated beta and gamma frequencies improve auditory sentence comprehension and active analytical reasoning. [[Center for BrainHealth](https://centerforbrainhealth.org/article/focus-hack-study-finds-students-use-binaural-beats-to-get-high)] |
+| **Alpha** | 8–12 Hz (10 Hz) | Flow State & Calm Focus | Systematic reviews on *PubMed* indicate alpha patterns can alleviate perceived task anxiety while preserving relaxed alertness. [[PubMed Review](https://pubmed.ncbi.nlm.nih.gov/37205669/)] |
+| **Theta** | 4–7 Hz (6 Hz) | Memory Consolidation & Calm | Associated with memory consolidation, restorative recovery, and deep contemplative states. [[Open Public Health Journal](https://openpublichealthjournal.com/VOLUME/17/ELOCATOR/e18749445332258/FULLTEXT/)] |
+| **Delta** | 1–3 Hz (2 Hz) | Deep Rest & Recovery | Deep restorative sleep and restorative physical recovery states. [[PMC Systematic Review](https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/)] |
+
+*Note: Headphones are required for true stereo channel separation and binaural beat perception.*
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Features
+
+- **Offline Drag & Drop Library**: Drop MP3, AAC, M4A, FLAC, or WAV files. They are stored locally in browser **IndexedDB** — your study playlist is preserved across reboots with zero re-importing.
+- **Projector Wall Mode (Hotkey `F`)**: Fullscreen, high-contrast, distraction-free study display showing your Pomodoro countdown and track title readable from across the room.
+- **Synthesized Ambient Soundscapes**: Independent volume controls for Brown Noise and Soft Rain that blend seamlessly underneath your music.
+- **Science-Backed Binaural Beat Generator**: Hardware-efficient stereo panner nodes for Gamma, Beta, Alpha, Theta, and Delta waves.
+- **Integrated Pomodoro Timer**: 25/5 min, 50/10 min, and Custom study intervals with non-jarring two-tone harmonic audio chimes.
+- **Projector Themes**: Instant toggle between **Projector Studio Light** and gentle **Warm Paper**.
+- **100% Client-Side & Private**: Zero telemetry, zero analytics, zero external API requests. Your music never leaves your device.
+
+---
+
+## Keyboard Shortcuts
 
 | Key | Action |
 | :--- | :--- |
@@ -60,7 +78,7 @@ Traditional streaming and music desktop apps (Spotify, Electron players) constan
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ### 1. Direct Launch (No Installation Required)
 Simply clone the repo and open `index.html` in Safari, Chrome, or Brave:
@@ -80,9 +98,16 @@ npx serve .
 ```
 Then visit `http://localhost:8080` in your browser and click **Install App** in the address bar.
 
+### 3. Native macOS App
+To build and install the standalone native macOS WebKit application:
+```bash
+./scripts/build-macos.sh
+```
+This compiles the native Swift binary, bundles all offline assets, creates an Apple HIG squircle icon, installs the app to `~/Applications`, and creates a distributable `.dmg`.
+
 ---
 
-## 🧪 Testing
+## Testing
 
 Zero-Power Player comes with a complete native Node.js test suite with zero external test runners:
 
@@ -92,5 +117,5 @@ node --test tests/*.js
 
 ---
 
-## 📄 License
+## License
 MIT License. Feel free to use, modify, and study with it!

@@ -184,7 +184,7 @@ export class UIController {
 
       this.engine.audioElement.addEventListener('error', (e) => {
         console.error('Audio decode error:', e);
-        this.showToast('⚠️ Unplayable audio file. Skipping...');
+        this.showToast('Unable to play audio file. Skipping...');
         this.nextTrack();
       });
     }
@@ -291,7 +291,7 @@ export class UIController {
     });
 
     this.timer.onTransition((data) => {
-      this.showToast(data.phase === 'break' ? '☕ Focus completed! Take a break.' : '🔔 Break finished! Back to focus.');
+      this.showToast(data.phase === 'break' ? 'Focus interval complete! Take a break.' : 'Break finished! Back to focus.');
     });
 
     // Projector Wall Mode
@@ -383,7 +383,9 @@ export class UIController {
           <div style="font-weight: 600; font-size: 0.95rem;">${track.title}</div>
           <div style="font-size: 0.75rem; color: var(--text-muted);">${StudyDB.formatBytes(track.size)}</div>
         </div>
-        <button class="btn" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" title="Delete Track">✕</button>
+        <button class="btn btn-delete-track" style="padding: 0.25rem 0.45rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;" title="Delete Track" aria-label="Delete Track">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       `;
 
       item.addEventListener('click', (e) => {
@@ -486,7 +488,7 @@ export class UIController {
     this.isShuffle = !this.isShuffle;
     this.dom.btnShuffle.style.borderColor = this.isShuffle ? 'var(--accent-focus)' : 'var(--border-color)';
     this.dom.btnShuffle.style.backgroundColor = this.isShuffle ? 'var(--accent-light)' : 'var(--bg-surface-elevated)';
-    this.showToast(this.isShuffle ? '🔀 Shuffle On' : '➡️ Shuffle Off');
+    this.showToast(this.isShuffle ? 'Shuffle On' : 'Shuffle Off');
   }
 
   async deleteTrack(idx) {
