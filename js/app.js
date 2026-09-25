@@ -58,8 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         ui.dom.btnTimerToggle.click();
         break;
+      case 'Slash':
+        if (e.shiftKey) { // '?' key
+          e.preventDefault();
+          ui.dom.hotkeysModal.classList.toggle('active');
+        }
+        break;
       case 'Escape':
-        if (ui.isWallActive) {
+        if (ui.dom.hotkeysModal.classList.contains('active')) {
+          ui.dom.hotkeysModal.classList.remove('active');
+        } else if (ui.dom.customModal.classList.contains('active')) {
+          ui.dom.customModal.classList.remove('active');
+        } else if (ui.isWallActive) {
           ui.toggleWallMode(false);
         }
         break;

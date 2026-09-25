@@ -171,14 +171,22 @@ export class AudioEngine {
 
   async playTrack(blob) {
     this.ensureAudioContext();
-    if (!this.audioElement) return;
+    if (!this.audioElement) return false;
     if (this.currentTrackUrl) {
       URL.revokeObjectURL(this.currentTrackUrl);
+      this.currentTrackUrl = null;
     }
-    this.currentTrackUrl = URL.createObjectURL(blob);
-    this.audioElement.src = this.currentTrackUrl;
-    await this.audioElement.play();
-    this.isPlaying = true;
+    try {
+      this.currentTrackUrl = URL.createObjectURL(blob);
+      this.audioElement.src = this.currentTrackUrl;
+      await this.audioElement.play();
+      this.isPlaying = true;
+      return true;
+    } catch (err) {
+      console.warn('Playback error or aborted:', err);
+      this.isPlaying = false;
+      return false;
+    }
   }
 
   pause() {
@@ -191,20 +199,32 @@ export class AudioEngine {
   async resume() {
     this.ensureAudioContext();
     if (this.audioElement) {
-      await this.audioElement.play();
+      try {
+        await this.audioElement.play();
+        this.isPlaying = true;
+        return true;
+      } catch (err) {
+        console.warn('Resume prevented by browser policy:', err);
+        this.isPlaying = false;
+        return false;
+      }
     }
-    this.isPlaying = true;
+    return false;
   }
 
   seek(seconds) {
-    if (this.audioElement && this.audioElement.duration) {
+    if (this.audioElement && !isNaN(this.audioElement.duration)) {
       this.audioElement.currentTime = Math.max(0, Math.min(this.audioElement.duration, seconds));
     }
   }
 
   setVolume(volumeRatio) {
     if (this.audioElement) {
-      this.audioElement.volume = Math.max(0, Math.min(1, volumeRatio));
+      const vol = Math.max(0, Math.min(1, volumeRatio));
+      this.audioElement.volume = vol;
+      try {
+        localStorage.setItem('study_player_volume', vol.toString());
+      } catch (e) {}
     }
   }
 }

@@ -75,6 +75,12 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
     <string>1.0.0</string>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.music</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Prince Jain. All rights reserved.</string>
     <key>LSMinimumSystemVersion</key>
     <string>11.0</string>
     <key>NSHighResolutionCapable</key>
