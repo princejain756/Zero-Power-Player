@@ -18,6 +18,8 @@ test('index.html contains all critical controls and accessibility landmarks', ()
   assert.ok(html.includes('id="binaural-preset"'), 'Must have binaural preset selector');
   assert.ok(html.includes('id="wall-mode-overlay"'), 'Must have projector wall overlay');
   assert.ok(html.includes('id="btn-wall-toggle"'), 'Must have projector wall mode button');
+  assert.ok(html.includes('id="cover-art-container"'), 'Must have cover art container');
+  assert.ok(html.includes('id="btn-toggle-cover"'), 'Must have toggle cover art button');
 });
 
 test('css layout prevents long song titles from blowing out grid columns', () => {

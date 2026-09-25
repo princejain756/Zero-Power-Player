@@ -14,6 +14,8 @@ export class UIController {
     this.isWallActive = false;
     this.isThrottled = false;
     this.wallCursorTimeout = null;
+    this.showCoverArt = true;
+    this.currentCoverUrl = null;
 
     if (typeof document !== 'undefined') {
       this.dom = {
@@ -35,6 +37,13 @@ export class UIController {
         dropzone: document.getElementById('dropzone'),
         fileInput: document.getElementById('file-input'),
         btnClearPlaylist: document.getElementById('btn-clear-playlist'),
+
+        // Cover Art Deck
+        btnToggleCover: document.getElementById('btn-toggle-cover'),
+        coverArtText: document.getElementById('cover-art-text'),
+        coverArtContainer: document.getElementById('cover-art-container'),
+        coverArtImg: document.getElementById('cover-art-img'),
+        coverArtFallback: document.getElementById('cover-art-fallback'),
 
         // Ambient
         brownSlider: document.getElementById('ambient-brown'),
@@ -91,6 +100,14 @@ export class UIController {
       if (savedTheme === 'warm-paper') {
         document.body.setAttribute('data-theme', 'warm-paper');
         if (this.dom.themeText) this.dom.themeText.textContent = 'Warm Paper';
+      }
+
+      // Restore Cover Art Preference
+      const savedCover = localStorage.getItem('study_player_cover_art');
+      if (savedCover === 'false') {
+        this.showCoverArt = false;
+        if (this.dom.coverArtContainer) this.dom.coverArtContainer.classList.add('hidden');
+        if (this.dom.coverArtText) this.dom.coverArtText.textContent = 'Cover Art: OFF';
       }
 
       // Restore Volume
@@ -265,8 +282,11 @@ export class UIController {
         this.currentTrackIndex = -1;
         this.renderPlaylist();
         this.dom.title.textContent = 'No Track Loaded';
+        this.dom.title.title = 'No Track Loaded';
         this.dom.artist.textContent = 'Drag and drop MP3s to start';
+        this.dom.artist.title = 'Drag and drop MP3s to start';
         this.dom.wallTrack.textContent = 'No Track Playing';
+        this.displayCoverArt(null);
         this.showToast('Library cleared');
       }
     });
@@ -367,6 +387,11 @@ export class UIController {
       this.dom.hotkeysModal.classList.remove('active');
     });
 
+    // Cover Art Toggle
+    if (this.dom.btnToggleCover) {
+      this.dom.btnToggleCover.addEventListener('click', () => this.toggleCoverArt());
+    }
+
     // Binaural Beats Science Modal
     if (this.dom.btnBinauralInfo) {
       this.dom.btnBinauralInfo.addEventListener('click', () => {
@@ -377,6 +402,38 @@ export class UIController {
       this.dom.btnBinauralClose.addEventListener('click', () => {
         this.dom.binauralModal.classList.remove('active');
       });
+    }
+  }
+
+  toggleCoverArt(force) {
+    this.showCoverArt = force !== undefined ? force : !this.showCoverArt;
+    if (this.dom.coverArtContainer) {
+      this.dom.coverArtContainer.classList.toggle('hidden', !this.showCoverArt);
+    }
+    if (this.dom.coverArtText) {
+      this.dom.coverArtText.textContent = this.showCoverArt ? 'Cover Art: ON' : 'Cover Art: OFF';
+    }
+    try {
+      localStorage.setItem('study_player_cover_art', this.showCoverArt.toString());
+    } catch (e) {}
+    this.showToast(this.showCoverArt ? 'Album artwork enabled' : 'Album artwork hidden');
+  }
+
+  displayCoverArt(blob) {
+    if (!this.dom.coverArtImg || !this.dom.coverArtFallback) return;
+    if (this.currentCoverUrl) {
+      URL.revokeObjectURL(this.currentCoverUrl);
+      this.currentCoverUrl = null;
+    }
+    if (blob) {
+      this.currentCoverUrl = URL.createObjectURL(blob);
+      this.dom.coverArtImg.src = this.currentCoverUrl;
+      this.dom.coverArtImg.style.display = 'block';
+      this.dom.coverArtFallback.style.display = 'none';
+    } else {
+      this.dom.coverArtImg.src = '';
+      this.dom.coverArtImg.style.display = 'none';
+      this.dom.coverArtFallback.style.display = 'flex';
     }
   }
 
@@ -459,6 +516,24 @@ export class UIController {
     this.dom.wallTrack.textContent = track.title;
 
     this.updatePlaylistActiveItem();
+
+    // Cover art display & on-demand extraction for cached tracks
+    if (track.coverBlob) {
+      this.displayCoverArt(track.coverBlob);
+    } else if (track.blob) {
+      this.displayCoverArt(null);
+      StudyDB.extractCoverArt(track.blob).then((extracted) => {
+        if (extracted) {
+          track.coverBlob = extracted;
+          StudyDB.updateTrackCover(track.id, extracted);
+          if (this.currentTrackIndex === index) {
+            this.displayCoverArt(extracted);
+          }
+        }
+      }).catch(() => {});
+    } else {
+      this.displayCoverArt(null);
+    }
 
     if (autoplay) {
       const success = await this.engine.playTrack(track.blob);
@@ -550,9 +625,12 @@ export class UIController {
       if (wasPlaying) {
         this.engine.pause();
         this.updatePlayStateUI(false);
+        this.displayCoverArt(null);
         this.currentTrackIndex = -1;
         this.dom.title.textContent = 'No Track Loaded';
+        this.dom.title.title = 'No Track Loaded';
         this.dom.artist.textContent = 'Select a track to play';
+        this.dom.artist.title = 'Select a track to play';
       } else if (this.currentTrackIndex > idx) {
         this.currentTrackIndex--;
       }
