@@ -28,22 +28,23 @@ chmod +x "${MACOS_DIR}/ZeroPowerPlayer"
 echo "📦 Packaging web application assets..."
 cp -r index.html icon.png css js manifest.json sw.js "${WWW_DIR}/"
 
-# 4. Generate AppIcon.icns if needed
-if [ ! -f "AppIcon.icns" ] && [ -f "LOGO.png" ]; then
-  echo "🎨 Generating AppIcon.icns from LOGO.png..."
+# 4. Generate AppIcon.icns with Apple HIG squircle
+if [ -f "LOGOUSE THIS.png" ]; then
+  echo "🎨 Generating Apple HIG squircle icon..."
+  python3 scripts/make_macos_icon.py "LOGOUSE THIS.png" "icon_macos.png"
   ICONSET_DIR="/tmp/icon.iconset"
   rm -rf "$ICONSET_DIR"
   mkdir -p "$ICONSET_DIR"
-  sips -z 16 16     LOGO.png --out "$ICONSET_DIR/icon_16x16.png" >/dev/null
-  sips -z 32 32     LOGO.png --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null
-  sips -z 32 32     LOGO.png --out "$ICONSET_DIR/icon_32x32.png" >/dev/null
-  sips -z 64 64     LOGO.png --out "$ICONSET_DIR/icon_32x32@2x.png" >/dev/null
-  sips -z 128 128   LOGO.png --out "$ICONSET_DIR/icon_128x128.png" >/dev/null
-  sips -z 256 256   LOGO.png --out "$ICONSET_DIR/icon_128x128@2x.png" >/dev/null
-  sips -z 256 256   LOGO.png --out "$ICONSET_DIR/icon_256x256.png" >/dev/null
-  sips -z 512 512   LOGO.png --out "$ICONSET_DIR/icon_256x256@2x.png" >/dev/null
-  sips -z 512 512   LOGO.png --out "$ICONSET_DIR/icon_512x512.png" >/dev/null
-  sips -z 1024 1024 LOGO.png --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null
+  sips -z 16 16     icon_macos.png --out "$ICONSET_DIR/icon_16x16.png" >/dev/null
+  sips -z 32 32     icon_macos.png --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null
+  sips -z 32 32     icon_macos.png --out "$ICONSET_DIR/icon_32x32.png" >/dev/null
+  sips -z 64 64     icon_macos.png --out "$ICONSET_DIR/icon_32x32@2x.png" >/dev/null
+  sips -z 128 128   icon_macos.png --out "$ICONSET_DIR/icon_128x128.png" >/dev/null
+  sips -z 256 256   icon_macos.png --out "$ICONSET_DIR/icon_128x128@2x.png" >/dev/null
+  sips -z 256 256   icon_macos.png --out "$ICONSET_DIR/icon_256x256.png" >/dev/null
+  sips -z 512 512   icon_macos.png --out "$ICONSET_DIR/icon_256x256@2x.png" >/dev/null
+  sips -z 512 512   icon_macos.png --out "$ICONSET_DIR/icon_512x512.png" >/dev/null
+  sips -z 1024 1024 icon_macos.png --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null
   iconutil -c icns "$ICONSET_DIR" -o AppIcon.icns
   rm -rf "$ICONSET_DIR"
 fi
