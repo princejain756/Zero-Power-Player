@@ -1,7 +1,8 @@
 import Cocoa
 import WebKit
+import UniformTypeIdentifiers
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKUIDelegate {
     var window: NSWindow!
     var webView: WKWebView!
 
@@ -29,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         webView = WKWebView(frame: window.contentView!.bounds, configuration: config)
         webView.autoresizingMask = [.width, .height]
+        webView.uiDelegate = self
         window.contentView!.addSubview(webView)
 
         // Load index.html from bundle Resources/www or relative path
@@ -50,6 +52,71 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
+    }
+
+    // MARK: - WKUIDelegate File Chooser & Dialogs
+
+    func webView(
+        _ webView: WKWebView,
+        runOpenPanelWith parameters: WKOpenPanelParameters,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping ([URL]?) -> Void
+    ) {
+        let openPanel = NSOpenPanel()
+        openPanel.title = "Select Audio Files"
+        openPanel.prompt = "Choose"
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = parameters.allowsDirectories
+        openPanel.allowsMultipleSelection = parameters.allowsMultipleSelection
+        openPanel.allowsOtherFileTypes = true
+
+        var contentTypes: [UTType] = [.audio, .mp3, .mpeg4Audio, .wav, .aiff]
+        if let flac = UTType(filenameExtension: "flac") { contentTypes.append(flac) }
+        if let ogg = UTType(filenameExtension: "ogg") { contentTypes.append(ogg) }
+        if let aac = UTType(filenameExtension: "aac") { contentTypes.append(aac) }
+        if let m4a = UTType(filenameExtension: "m4a") { contentTypes.append(m4a) }
+        openPanel.allowedContentTypes = contentTypes
+
+        openPanel.beginSheetModal(for: self.window) { response in
+            if response == .OK {
+                completionHandler(openPanel.urls)
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptConfirmPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (Bool) -> Void
+    ) {
+        let alert = NSAlert()
+        alert.messageText = "Zero-Power Player"
+        alert.informativeText = message
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: self.window) { response in
+            completionHandler(response == .alertFirstButtonReturn)
+        }
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptAlertPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping () -> Void
+    ) {
+        let alert = NSAlert()
+        alert.messageText = "Zero-Power Player"
+        alert.informativeText = message
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.beginSheetModal(for: self.window) { _ in
+            completionHandler()
+        }
     }
 }
 

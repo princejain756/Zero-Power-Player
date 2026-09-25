@@ -160,14 +160,14 @@
 
       <!-- File Import Dropzone -->
       <div id="dropzone" class="dropzone">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin: 0 auto var(--space-2); display: block; color: var(--text-muted);">
+        <input type="file" id="file-input" class="dropzone-input" multiple accept="audio/*,.mp3,.m4a,.aac,.wav,.flac,.ogg" aria-label="Choose audio files">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin: 0 auto var(--space-2); display: block; color: var(--text-muted); pointer-events: none;">
           <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
           <path d="M12 12v9"></path>
           <path d="m16 16-4-4-4 4"></path>
         </svg>
-        <div style="font-weight: 700; color: var(--text-primary);">Drop MP3 / Audio Files Here</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Or click to choose from computer (auto-saved locally in IndexedDB)</div>
-        <input type="file" id="file-input" multiple accept="audio/*" style="display: none;">
+        <div style="font-weight: 700; color: var(--text-primary); pointer-events: none;">Drop MP3 / Audio Files Here</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; pointer-events: none;">Or click to choose from computer (auto-saved locally in IndexedDB)</div>
       </div>
 
       <!-- Playlist -->

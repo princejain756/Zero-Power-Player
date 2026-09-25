@@ -178,6 +178,23 @@ export class UIController {
         }
       });
 
+      this.engine.audioElement.addEventListener('loadedmetadata', () => {
+        const dur = this.engine.audioElement.duration || 0;
+        this.dom.timeTotal.textContent = AudioEngine.formatTime(dur);
+        if (!this.engine.isPlaying) {
+          this.dom.timeCurrent.textContent = AudioEngine.formatTime(0);
+          this.dom.scrubBar.value = 0;
+        }
+      });
+
+      this.engine.audioElement.addEventListener('play', () => {
+        this.updatePlayStateUI(true);
+      });
+
+      this.engine.audioElement.addEventListener('pause', () => {
+        this.updatePlayStateUI(false);
+      });
+
       this.engine.audioElement.addEventListener('ended', () => {
         this.nextTrack();
       });
@@ -204,21 +221,37 @@ export class UIController {
       this.showToast(`Binaural preset: ${e.target.value.toUpperCase()}`);
     });
 
-    // File Drag & Drop
-    this.dom.dropzone.addEventListener('click', () => this.dom.fileInput.click());
-    this.dom.fileInput.addEventListener('change', (e) => this.handleFileSelection(e.target.files));
-
-    this.dom.dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      this.dom.dropzone.classList.add('dragover');
+    // File Drag & Drop & Direct File Chooser
+    this.dom.dropzone.addEventListener('click', (e) => {
+      if (e.target !== this.dom.fileInput) {
+        this.dom.fileInput.click();
+      }
     });
-    this.dom.dropzone.addEventListener('dragleave', () => {
-      this.dom.dropzone.classList.remove('dragover');
+    this.dom.fileInput.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+    this.dom.fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        this.handleFileSelection(e.target.files);
+      }
+      e.target.value = '';
+    });
+
+    ['dragenter', 'dragover'].forEach((name) => {
+      this.dom.dropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        this.dom.dropzone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach((name) => {
+      this.dom.dropzone.addEventListener(name, (e) => {
+        this.dom.dropzone.classList.remove('dragover');
+      });
     });
     this.dom.dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
       this.dom.dropzone.classList.remove('dragover');
-      if (e.dataTransfer.files) {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         this.handleFileSelection(e.dataTransfer.files);
       }
     });
@@ -349,6 +382,7 @@ export class UIController {
 
   async handleFileSelection(files) {
     let addedCount = 0;
+    const startIndex = this.tracks.length;
     for (const file of files) {
       if (file.type.startsWith('audio/') || file.name.match(/\.(mp3|m4a|aac|wav|flac|ogg)$/i)) {
         try {
@@ -363,9 +397,8 @@ export class UIController {
     if (addedCount > 0) {
       this.renderPlaylist();
       this.showToast(`Added ${addedCount} track${addedCount > 1 ? 's' : ''}`);
-      if (this.currentTrackIndex === -1 && this.tracks.length > 0) {
-        this.selectTrack(0, false);
-      }
+      // Autoplay the newly added track immediately!
+      await this.selectTrack(startIndex, true);
     }
   }
 
@@ -427,6 +460,9 @@ export class UIController {
     if (autoplay) {
       const success = await this.engine.playTrack(track.blob);
       this.updatePlayStateUI(success);
+    } else {
+      this.engine.loadTrack(track.blob);
+      this.updatePlayStateUI(false);
     }
   }
 
@@ -461,8 +497,18 @@ export class UIController {
       this.engine.pause();
       this.updatePlayStateUI(false);
     } else {
-      const ok = await this.engine.resume();
-      this.updatePlayStateUI(ok);
+      if (!this.engine.currentTrackUrl && this.tracks[this.currentTrackIndex]) {
+        const ok = await this.engine.playTrack(this.tracks[this.currentTrackIndex].blob);
+        this.updatePlayStateUI(ok);
+      } else {
+        const ok = await this.engine.resume();
+        if (!ok && this.tracks[this.currentTrackIndex]) {
+          const retryOk = await this.engine.playTrack(this.tracks[this.currentTrackIndex].blob);
+          this.updatePlayStateUI(retryOk);
+        } else {
+          this.updatePlayStateUI(ok);
+        }
+      }
     }
   }
 

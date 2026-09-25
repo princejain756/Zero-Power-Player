@@ -173,16 +173,22 @@ export class AudioEngine {
     }
   }
 
-  async playTrack(blob) {
-    this.ensureAudioContext();
-    if (!this.audioElement) return false;
+  loadTrack(blob) {
+    if (!this.audioElement) return;
     if (this.currentTrackUrl) {
       URL.revokeObjectURL(this.currentTrackUrl);
       this.currentTrackUrl = null;
     }
+    this.currentTrackUrl = URL.createObjectURL(blob);
+    this.audioElement.src = this.currentTrackUrl;
+    this.audioElement.load();
+  }
+
+  async playTrack(blob) {
+    this.ensureAudioContext();
+    if (!this.audioElement) return false;
+    this.loadTrack(blob);
     try {
-      this.currentTrackUrl = URL.createObjectURL(blob);
-      this.audioElement.src = this.currentTrackUrl;
       await this.audioElement.play();
       this.isPlaying = true;
       return true;
