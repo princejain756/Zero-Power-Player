@@ -19,3 +19,11 @@ test('index.html contains all critical controls and accessibility landmarks', ()
   assert.ok(html.includes('id="wall-mode-overlay"'), 'Must have projector wall overlay');
   assert.ok(html.includes('id="btn-wall-toggle"'), 'Must have projector wall mode button');
 });
+
+test('css layout prevents long song titles from blowing out grid columns', () => {
+  const css = fs.readFileSync(path.resolve('css/style.css'), 'utf8');
+  assert.ok(css.includes('minmax(0, 1fr) minmax(0, 1fr)'), 'main-container must use minmax(0, 1fr) to prevent blowout');
+  assert.ok(css.includes('.track-title {'), 'must have .track-title');
+  assert.ok(css.includes('text-overflow: ellipsis;'), 'must have text-overflow: ellipsis');
+  assert.ok(css.includes('overflow-x: hidden;'), 'body must clip horizontal scroll');
+});

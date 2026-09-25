@@ -411,10 +411,11 @@ export class UIController {
       const item = document.createElement('div');
       item.className = `track-item ${idx === this.currentTrackIndex ? 'active' : ''}`;
       item.dataset.index = idx;
+      item.title = `${track.title} (${StudyDB.formatBytes(track.size)})`;
       item.innerHTML = `
-        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
-          <div style="font-weight: 600; font-size: 0.95rem;">${track.title}</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted);">${StudyDB.formatBytes(track.size)}</div>
+        <div class="track-info">
+          <div class="track-item-title">${track.title}</div>
+          <div class="track-item-size">${StudyDB.formatBytes(track.size)}</div>
         </div>
         <button class="btn btn-delete-track" style="padding: 0.25rem 0.45rem; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center;" title="Delete Track" aria-label="Delete Track">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -452,7 +453,9 @@ export class UIController {
     const track = this.tracks[index];
 
     this.dom.title.textContent = track.title;
+    this.dom.title.title = track.title;
     this.dom.artist.textContent = track.artist || 'Study Playlist';
+    this.dom.artist.title = track.artist || 'Study Playlist';
     this.dom.wallTrack.textContent = track.title;
 
     this.updatePlaylistActiveItem();

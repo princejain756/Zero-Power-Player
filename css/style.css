@@ -16,6 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -26,12 +27,15 @@ body {
   padding: var(--space-4) var(--space-8);
   background-color: var(--bg-surface);
   border-bottom: 2px solid var(--border-color);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .brand h1 {
@@ -39,12 +43,14 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+  white-space: nowrap;
 }
 
 .header-badges {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .badge {
@@ -58,6 +64,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  white-space: nowrap;
 }
 
 .badge-lowpower {
@@ -66,21 +73,22 @@ body {
   background-color: var(--accent-break-light);
 }
 
-/* Layout Grid */
+/* Layout Grid - minmax(0, 1fr) prevents long-title column blowouts */
 .main-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-6);
   padding: var(--space-8);
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 960px) {
   .main-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding: var(--space-4);
   }
 }
@@ -92,6 +100,9 @@ body {
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   box-shadow: var(--shadow-card);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* Track Display & Controls */
@@ -101,22 +112,49 @@ body {
   gap: var(--space-4);
   text-align: center;
   padding: var(--space-6) 0;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.track-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 var(--space-2);
 }
 
 .track-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
+  display: block;
 }
 
 .track-artist {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-secondary);
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 var(--space-2);
+  display: block;
 }
 
 /* Scrub Bar */
@@ -314,8 +352,11 @@ body {
 .playlist-container {
   max-height: 380px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
+  min-width: 0;
+  width: 100%;
 }
 
 .track-item {
@@ -325,6 +366,29 @@ body {
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border-color);
   cursor: pointer;
+  min-width: 0;
+  gap: var(--space-3);
+  transition: background-color 0.15s ease;
+}
+
+.track-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.track-item-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.track-item-size {
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .track-item:last-child {
@@ -408,6 +472,7 @@ body {
   gap: 2px;
   height: 14px;
   width: 14px;
+  flex-shrink: 0;
 }
 
 .equalizer-bar {
