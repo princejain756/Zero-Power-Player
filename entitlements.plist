@@ -6,6 +6,12 @@
     <key>com.apple.security.app-sandbox</key>
     <true/>
 
+    <!-- Application & Team Identifier for TestFlight -->
+    <key>com.apple.application-identifier</key>
+    <string>287KM9YTH9.com.princejain.zeropowerplayer</string>
+    <key>com.apple.developer.team-identifier</key>
+    <string>287KM9YTH9</string>
+
     <!-- Allow user to drag and drop audio files from any folder -->
     <key>com.apple.security.files.user-selected.read-write</key>
     <true/>

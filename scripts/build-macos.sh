@@ -17,10 +17,12 @@ WWW_DIR="${RESOURCES_DIR}/www"
 rm -rf dist/
 mkdir -p "${MACOS_DIR}" "${WWW_DIR}"
 
-# 2. Compile native Swift executable
-echo "⚡ Compiling Swift WebKit native launcher..."
-swiftc -O -target arm64-apple-macos11.0 src-macos/main.swift -o "${MACOS_DIR}/ZeroPowerPlayer" 2>/dev/null || \
-swiftc -O src-macos/main.swift -o "${MACOS_DIR}/ZeroPowerPlayer"
+# 2. Compile native Swift executable (Universal 2: Apple Silicon + Intel)
+echo "⚡ Compiling Swift WebKit native launcher (Universal: arm64 + x86_64)..."
+swiftc -O -target arm64-apple-macos12.0 src-macos/main.swift -o "/tmp/ZeroPowerPlayer_arm64"
+swiftc -O -target x86_64-apple-macos12.0 src-macos/main.swift -o "/tmp/ZeroPowerPlayer_x86_64"
+lipo -create "/tmp/ZeroPowerPlayer_arm64" "/tmp/ZeroPowerPlayer_x86_64" -output "${MACOS_DIR}/ZeroPowerPlayer"
+rm -f "/tmp/ZeroPowerPlayer_arm64" "/tmp/ZeroPowerPlayer_x86_64"
 
 chmod +x "${MACOS_DIR}/ZeroPowerPlayer"
 
@@ -74,7 +76,7 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>2</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.music</string>
     <key>ITSAppUsesNonExemptEncryption</key>
@@ -82,7 +84,7 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2026 Prince Jain. All rights reserved.</string>
     <key>LSMinimumSystemVersion</key>
-    <string>11.0</string>
+    <string>12.0</string>
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSRequiresAquaSystemAppearance</key>
@@ -90,6 +92,10 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
 </dict>
 </plist>
 EOF
+
+# Strip all extended attributes (com.apple.quarantine etc.)
+xattr -rc "${BUNDLE_DIR}"
+find "${BUNDLE_DIR}" -exec xattr -c {} + 2>/dev/null || true
 
 # 6. Install to ~/Applications for current user
 echo "🚀 Installing to ~/Applications..."

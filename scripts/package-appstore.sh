@@ -16,6 +16,15 @@ PKG_PATH="dist/Zero-Power-Player-AppStore.pkg"
 SIGN_IDENTITY=$(security find-identity -p basic -v | grep "Apple Distribution:" | head -n 1 | awk -F'"' '{print $2}' || true)
 INSTALLER_IDENTITY=$(security find-identity -p basic -v | grep "3rd Party Mac Developer Installer:" | head -n 1 | awk -F'"' '{print $2}' || true)
 
+if [ -f "embedded.provisionprofile" ]; then
+  echo "📋 Embedding Mac App Store Provisioning Profile..."
+  cp embedded.provisionprofile "${APP_PATH}/Contents/embedded.provisionprofile"
+fi
+
+echo "🧹 Stripping all extended quarantine attributes..."
+xattr -rc "${APP_PATH}"
+find "${APP_PATH}" -exec xattr -c {} + 2>/dev/null || true
+
 if [ -z "$SIGN_IDENTITY" ]; then
   echo "⚠️ No 'Apple Distribution' certificate found in Keychain."
   echo "👉 For local testing/validation, applying ad-hoc codesigning with App Store sandbox entitlements..."
@@ -31,6 +40,9 @@ codesign -vvv --deep --strict "${APP_PATH}"
 codesign -d --entitlements :- "${APP_PATH}"
 
 # 4. Build .pkg installer for App Store Connect / Transporter
+xattr -rc "${APP_PATH}"
+find "${APP_PATH}" -exec xattr -c {} + 2>/dev/null || true
+
 if [ -n "$INSTALLER_IDENTITY" ]; then
   echo "📦 Creating signed App Store .pkg using ${INSTALLER_IDENTITY}..."
   productbuild --component "${APP_PATH}" /Applications --sign "${INSTALLER_IDENTITY}" "${PKG_PATH}"
