@@ -50,6 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
           ui.dom.trackVolume.value = engine.audioElement.volume;
         }
         break;
+      case 'KeyR':
+        e.preventDefault();
+        ui.cycleRepeat();
+        break;
+      case 'KeyS':
+        e.preventDefault();
+        ui.toggleShuffle();
+        break;
       case 'KeyF':
         e.preventDefault();
         ui.toggleWallMode();

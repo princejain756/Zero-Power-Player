@@ -76,7 +76,7 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
     <key>CFBundleVersion</key>
-    <string>3</string>
+    <string>5</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.music</string>
     <key>ITSAppUsesNonExemptEncryption</key>

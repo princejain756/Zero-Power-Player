@@ -16,6 +16,11 @@ export class UIController {
     this.wallCursorTimeout = null;
     this.showCoverArt = true;
     this.currentCoverUrl = null;
+    let savedRepeat = 'off';
+    try {
+      savedRepeat = (typeof localStorage !== 'undefined' && localStorage.getItem('zero_power_repeat')) || 'off';
+    } catch (_) {}
+    this.repeatMode = savedRepeat;
 
     if (typeof document !== 'undefined') {
       this.dom = {
@@ -31,6 +36,8 @@ export class UIController {
         btnPrev: document.getElementById('btn-prev'),
         btnNext: document.getElementById('btn-next'),
         btnShuffle: document.getElementById('btn-shuffle'),
+        btnRepeat: document.getElementById('btn-repeat'),
+        repeatBadge: document.getElementById('repeat-badge'),
         trackVolume: document.getElementById('track-volume'),
         playlist: document.getElementById('playlist'),
         playlistCount: document.getElementById('playlist-count'),
@@ -150,6 +157,10 @@ export class UIController {
     this.dom.btnNext.addEventListener('click', () => this.nextTrack());
     this.dom.btnPrev.addEventListener('click', () => this.prevTrack());
     this.dom.btnShuffle.addEventListener('click', () => this.toggleShuffle());
+    if (this.dom.btnRepeat) {
+      this.dom.btnRepeat.addEventListener('click', () => this.cycleRepeat());
+      this.updateRepeatUI();
+    }
 
     // Smooth Scrub Bar with Drag Lock (Prevents stutter)
     const onScrubStart = () => { this.isScrubbing = true; };
@@ -213,7 +224,7 @@ export class UIController {
       });
 
       this.engine.audioElement.addEventListener('ended', () => {
-        this.nextTrack();
+        this.handleTrackEnded();
       });
 
       this.engine.audioElement.addEventListener('error', (e) => {
@@ -595,6 +606,9 @@ export class UIController {
     let nextIdx = this.currentTrackIndex + 1;
     if (this.isShuffle) {
       nextIdx = Math.floor(Math.random() * this.tracks.length);
+      if (this.tracks.length > 1 && nextIdx === this.currentTrackIndex) {
+        nextIdx = (nextIdx + 1) % this.tracks.length;
+      }
     } else if (nextIdx >= this.tracks.length) {
       nextIdx = 0;
     }
@@ -606,6 +620,83 @@ export class UIController {
     let prevIdx = this.currentTrackIndex - 1;
     if (prevIdx < 0) prevIdx = this.tracks.length - 1;
     this.selectTrack(prevIdx, true);
+  }
+
+  handleTrackEnded() {
+    if (this.tracks.length === 0) return;
+
+    // 1. Repeat One: replay current track
+    if (this.repeatMode === 'one') {
+      this.engine.seek(0);
+      this.engine.play().then((ok) => this.updatePlayStateUI(ok));
+      return;
+    }
+
+    // 2. Shuffle mode
+    if (this.isShuffle) {
+      let nextIdx = Math.floor(Math.random() * this.tracks.length);
+      if (this.tracks.length > 1 && nextIdx === this.currentTrackIndex) {
+        nextIdx = (nextIdx + 1) % this.tracks.length;
+      }
+      this.selectTrack(nextIdx, true);
+      return;
+    }
+
+    // 3. Normal sequential advance
+    const nextIdx = this.currentTrackIndex + 1;
+    if (nextIdx < this.tracks.length) {
+      this.selectTrack(nextIdx, true);
+    } else {
+      // Reached the end of the playlist
+      if (this.repeatMode === 'all') {
+        this.selectTrack(0, true);
+      } else {
+        // Repeat is OFF: Stop playing at the end of playlist
+        this.engine.pause();
+        this.engine.seek(0);
+        this.updatePlayStateUI(false);
+        this.showToast('Playlist finished');
+      }
+    }
+  }
+
+  cycleRepeat() {
+    if (this.repeatMode === 'off') {
+      this.repeatMode = 'all';
+      this.showToast('Repeat: All (Loop Playlist)');
+    } else if (this.repeatMode === 'all') {
+      this.repeatMode = 'one';
+      this.showToast('Repeat: Current Track');
+    } else {
+      this.repeatMode = 'off';
+      this.showToast('Repeat: Off');
+    }
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('zero_power_repeat', this.repeatMode);
+      }
+    } catch (_) {}
+    this.updateRepeatUI();
+  }
+
+  updateRepeatUI() {
+    if (!this.dom || !this.dom.btnRepeat) return;
+    if (this.repeatMode === 'off') {
+      this.dom.btnRepeat.style.borderColor = 'var(--border-color)';
+      this.dom.btnRepeat.style.backgroundColor = 'var(--bg-surface-elevated)';
+      this.dom.btnRepeat.setAttribute('title', 'Repeat Mode: Off (R)');
+      if (this.dom.repeatBadge) this.dom.repeatBadge.style.display = 'none';
+    } else if (this.repeatMode === 'all') {
+      this.dom.btnRepeat.style.borderColor = 'var(--accent-focus)';
+      this.dom.btnRepeat.style.backgroundColor = 'var(--accent-light)';
+      this.dom.btnRepeat.setAttribute('title', 'Repeat Mode: All (Loop Playlist) (R)');
+      if (this.dom.repeatBadge) this.dom.repeatBadge.style.display = 'none';
+    } else if (this.repeatMode === 'one') {
+      this.dom.btnRepeat.style.borderColor = 'var(--accent-focus)';
+      this.dom.btnRepeat.style.backgroundColor = 'var(--accent-light)';
+      this.dom.btnRepeat.setAttribute('title', 'Repeat Mode: Current Track (R)');
+      if (this.dom.repeatBadge) this.dom.repeatBadge.style.display = 'inline-block';
+    }
   }
 
   toggleShuffle() {
