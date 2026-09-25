@@ -10,3 +10,4 @@ node_modules/
 *.p8
 *.pkg
 *.provisionprofile
+.vercel

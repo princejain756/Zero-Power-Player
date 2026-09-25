@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Privacy Policy for Zero-Power Player. 100% offline, zero data collection, zero telemetry.">
+  <meta name="theme-color" content="#fbfbfa">
+  <title>Privacy Policy • Zero-Power Player</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="css/tokens.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .privacy-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    /* Container */
+    .content-wrap {
+      max-width: 760px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 1.5rem;
+      flex: 1;
+    }
+
+    .policy-hero {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge-privacy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      color: var(--accent-break);
+      background: var(--accent-break-light);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .meta-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Sections */
+    .policy-section {
+      margin-bottom: 2.25rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.65rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+      font-size: 0.98rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent-break);
+      font-weight: 700;
+    }
+
+    .highlight-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .highlight-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    /* Footer */
+    .privacy-footer {
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .privacy-footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .privacy-footer a:hover {
+      color: var(--accent-focus);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="privacy-header">
+    <a href="index.html" class="brand">
+      <img src="icon.png" alt="Zero-Power Player Logo">
+      <div>
+        <div class="brand-title">Zero-Power Player</div>
+      </div>
+    </a>
+    <a href="index.html" class="nav-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Back to Player</span>
+    </a>
+  </header>
+
+  <!-- Main Policy Content -->
+  <main class="content-wrap">
+    
+    <div class="policy-hero">
+      <span class="badge-privacy">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Zero Data Collection • 100% Offline</span>
+      </span>
+      <h1>Privacy Policy</h1>
+      <div class="meta-date">Effective Date: September 26, 2026 • Version 1.0</div>
+    </div>
+
+    <!-- Section 1 -->
+    <section class="policy-section">
+      <h2>1. Our Privacy Philosophy</h2>
+      <p>
+        <strong>Zero-Power Player</strong> is built upon a fundamental design principle: <strong>True privacy is achieved through architecture, not promises.</strong>
+      </p>
+      <p>
+        The application is engineered to operate completely on your local device. We do not operate remote tracking servers, we do not require account registration, and we do not capture, process, or sell any information about your listening habits, focus intervals, or hardware.
+      </p>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="policy-section">
+      <h2>2. Information We Do NOT Collect</h2>
+      <p>When using Zero-Power Player (either as a native macOS application or on the web), we collect <strong>absolutely no personal data</strong>:</p>
+      <ul>
+        <li><strong>No Account Information:</strong> No email, username, password, phone number, or profile data is ever requested or stored.</li>
+        <li><strong>No Audio Telemetry:</strong> We do not track track names, artist tags, listening duration, audio files, or volume mixer settings.</li>
+        <li><strong>No Location Data:</strong> We do not access GPS, IP geolocations, or network locations.</li>
+        <li><strong>No Analytics or Tracking SDKs:</strong> There are zero third-party analytics libraries (such as Google Analytics, Firebase, Mixpanel, or Facebook SDK).</li>
+        <li><strong>No Advertising Identifiers:</strong> We do not access IDFA, advertising IDs, or display ads of any kind.</li>
+        <li><strong>No Tracking Cookies:</strong> No persistent tracking cookies or session identifiers are placed on your machine.</li>
+      </ul>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="policy-section">
+      <h2>3. Local Data Storage & Your Files</h2>
+      <div class="highlight-card">
+        <div class="highlight-title">Your Audio Files Never Leave Your Computer</div>
+        <p style="margin-bottom: 0; font-size: 0.9rem;">
+          When you add MP3 or audio files to Zero-Power Player, they are stored directly inside your browser or app's local <strong>IndexedDB sandbox</strong> on your device storage. No audio data is ever uploaded to any cloud server or third-party endpoint.
+        </p>
+      </div>
+      <p>
+        You have immediate and unconditional control over your local library: clicking the <strong>"Clear All"</strong> button permanently wipes all stored tracks from your local hardware storage instantly.
+      </p>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="policy-section">
+      <h2>4. Offline & Energy-Efficient Architecture</h2>
+      <p>
+        Zero-Power Player uses native hardware audio decoding (CoreAudio / WebAudio API). The entire application runs offline without an active internet connection. Background CPU cycles are minimized when the window is not in focus to preserve battery life and minimize thermal footprint.
+      </p>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="policy-section">
+      <h2>5. Children’s Privacy (COPPA & Global Standards)</h2>
+      <p>
+        Zero-Power Player does not collect personal data from anyone, including children under the age of 13 (or under the applicable age of digital consent in your jurisdiction). It is rated <strong>4+</strong> on the Mac App Store and is completely safe for educational, study, and family environments.
+      </p>
+    </section>
+
+    <!-- Section 6 -->
+    <section class="policy-section">
+      <h2>6. Changes to This Privacy Policy</h2>
+      <p>
+        Because Zero-Power Player collects zero data, changes to this policy will only occur in the event of major structural updates. Any changes will be posted directly to this URL and noted in our release changelog.
+      </p>
+    </section>
+
+    <!-- Section 7 -->
+    <section class="policy-section">
+      <h2>7. Developer Contact & Support</h2>
+      <p>If you have any questions or feedback regarding this Privacy Policy or Zero-Power Player, please contact:</p>
+      <div class="highlight-card">
+        <p style="margin-bottom: 0.35rem;"><strong>Developer:</strong> Prince Jain</p>
+        <p style="margin-bottom: 0.35rem;"><strong>Email:</strong> <a href="mailto:princestock756@gmail.com" style="color: var(--accent-focus); text-decoration: none;">princestock756@gmail.com</a></p>
+        <p style="margin-bottom: 0;"><strong>Source Code & Issues:</strong> <a href="https://github.com/princejain756/Zero-Power-Player" target="_blank" rel="noopener" style="color: var(--accent-focus); text-decoration: none;">github.com/princejain756/Zero-Power-Player</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="privacy-footer">
+    <div>Zero-Power Player • Study Audio Deck • Designed with 100% Privacy by Architecture</div>
+    <div style="margin-top: 0.4rem;">
+      <a href="index.html">Web Player</a> • <a href="https://github.com/princejain756/Zero-Power-Player" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>

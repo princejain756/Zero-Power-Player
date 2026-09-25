@@ -497,8 +497,43 @@ body {
   z-index: 10001;
 }
 
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
+/* App Footer */
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-8);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  margin-top: auto;
 }
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent-focus);
+}
+
+@media (max-width: 640px) {
+  .app-footer {
+    flex-direction: column;
+    gap: var(--space-2);
+    text-align: center;
+    padding: var(--space-4);
+  }
+}
+
 
