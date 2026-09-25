@@ -65,9 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         break;
       case 'Escape':
-        if (ui.dom.hotkeysModal.classList.contains('active')) {
+        if (ui.dom.hotkeysModal && ui.dom.hotkeysModal.classList.contains('active')) {
           ui.dom.hotkeysModal.classList.remove('active');
-        } else if (ui.dom.customModal.classList.contains('active')) {
+        } else if (ui.dom.binauralModal && ui.dom.binauralModal.classList.contains('active')) {
+          ui.dom.binauralModal.classList.remove('active');
+        } else if (ui.dom.customModal && ui.dom.customModal.classList.contains('active')) {
           ui.dom.customModal.classList.remove('active');
         } else if (ui.isWallActive) {
           ui.toggleWallMode(false);

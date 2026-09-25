@@ -6,8 +6,8 @@
   <meta name="description" content="Ultra low-power MP3 player and ambient soundscape generator for studying with projector optimization.">
   <meta name="theme-color" content="#fbfbfa">
   <title>Zero-Power Player • Study Audio Deck</title>
-  <link rel="icon" type="image/png" href="icon_macos.png">
-  <link rel="apple-touch-icon" href="icon_macos.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
 </head>
@@ -16,7 +16,7 @@
   <!-- Header -->
   <header class="app-header">
     <div class="brand">
-      <img src="icon_macos.png" alt="Zero-Power Player Logo" width="38" height="38" style="border-radius: 9px; object-fit: cover; box-shadow: var(--shadow-subtle);">
+      <img src="icon.png" alt="Zero-Power Player Logo" width="38" height="38" style="border-radius: 9px; object-fit: cover; box-shadow: var(--shadow-subtle);">
       <div>
         <h1>Zero-Power Player</h1>
         <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">Offline Study Audio Deck</div>
@@ -114,14 +114,19 @@
 
           <div class="ambient-item">
             <div class="ambient-label" style="display: flex; flex-direction: column;">
-              <div style="display: flex; align-items: center; gap: 0.4rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                <span>Binaural Beats</span>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;">
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                  <span>Binaural Beats</span>
+                </div>
+                <button id="btn-binaural-info" class="btn" style="padding: 0.1rem 0.4rem; font-size: 0.72rem; border-radius: var(--radius-full);" title="Science of Binaural Beats">ⓘ</button>
               </div>
-              <select id="binaural-preset" style="font-size: 0.75rem; margin-top: 0.25rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 4px; padding: 2px 4px;">
-                <option value="alpha">Alpha 10Hz (Flow State)</option>
-                <option value="theta">Theta 6Hz (Memory / Calm)</option>
-                <option value="gamma">Gamma 40Hz (Deep Focus)</option>
+              <select id="binaural-preset" style="font-size: 0.75rem; margin-top: 0.35rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 4px; padding: 3px 5px;">
+                <option value="alpha">Alpha 10Hz (Relaxed Focus / Flow State)</option>
+                <option value="beta">Beta 16Hz (Active Study / Logic / Comprehension)</option>
+                <option value="gamma">Gamma 40Hz (Peak Cognition & Problem Solving)</option>
+                <option value="theta">Theta 6Hz (Memory Consolidation & Calm)</option>
+                <option value="delta">Delta 2Hz (Deep Rest & Restoration)</option>
               </select>
             </div>
             <input type="range" id="ambient-binaural" class="ambient-slider" min="0" max="1" step="0.05" value="0" aria-label="Binaural beats volume">
@@ -233,6 +238,54 @@
       </div>
       <div style="display: flex; justify-content: flex-end; margin-top: var(--space-6);">
         <button id="btn-hotkeys-close" class="btn btn-primary">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Binaural Beats Science Modal -->
+  <div id="binaural-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 540px; max-height: 85vh; overflow-y: auto;">
+      <h3 class="modal-title">🧠 Science of Binaural Beats</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: var(--space-4);">
+        Binaural beats are an auditory illusion perceived when two slightly different frequencies are played separately into each stereo ear, prompting the brain to perceive a rhythmic pulsing beat at the mathematical difference.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: 0.82rem;">
+        <div style="background: var(--bg-surface-elevated); padding: var(--space-3); border-radius: var(--radius-md); border-left: 3px solid var(--accent-focus);">
+          <strong>⚡ Gamma (40 Hz) — Peak Focus & Problem Solving</strong>
+          <div style="color: var(--text-muted); margin-top: 0.2rem;">
+            Research in <em>Scientific Reports (Nature)</em> shows 40 Hz gamma frequencies trigger significant neural entrainment linked to heightened concentration and cognitive processing.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-elevated); padding: var(--space-3); border-radius: var(--radius-md); border-left: 3px solid var(--accent-primary);">
+          <strong>📘 Beta (14–20 Hz) — Active Study & Logic</strong>
+          <div style="color: var(--text-muted); margin-top: 0.2rem;">
+            A 2023 study in <em>Psychological Research</em> demonstrated beta and gamma frequencies enhance auditory comprehension and active analytical reasoning.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-elevated); padding: var(--space-3); border-radius: var(--radius-md); border-left: 3px solid var(--accent-break);">
+          <strong>🌊 Alpha (8–12 Hz) — Flow State & Calm Focus</strong>
+          <div style="color: var(--text-muted); margin-top: 0.2rem;">
+            Systematic reviews on <em>PubMed</em> indicate alpha patterns help alleviate perceived task anxiety while preserving relaxed alertness.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-elevated); padding: var(--space-3); border-radius: var(--radius-md); border-left: 3px solid #8b5cf6;">
+          <strong>🌙 Theta (4–7 Hz) & Delta (1–3 Hz) — Memory & Deep Rest</strong>
+          <div style="color: var(--text-muted); margin-top: 0.2rem;">
+            Associated with memory consolidation, restorative recovery, and deep contemplative states.
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: var(--space-4); border-top: 1px solid var(--border-color); padding-top: var(--space-2);">
+        *Note: Headphones are required for true stereo channel separation and binaural beat perception.
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: var(--space-4);">
+        <button id="btn-binaural-close" class="btn btn-primary">Close</button>
       </div>
     </div>
   </div>

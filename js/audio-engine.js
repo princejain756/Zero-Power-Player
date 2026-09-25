@@ -31,9 +31,13 @@ export class AudioEngine {
   static getBinauralFrequencies(preset) {
     const baseFreq = 200; // Comfortable carrier frequency
     switch (preset) {
+      case 'delta': // Deep rest, restorative state (2 Hz)
+        return { baseFreq, beatFreq: 2, leftFreq: baseFreq, rightFreq: baseFreq + 2 };
       case 'theta': // Deep meditation & memory consolidation (6 Hz)
         return { baseFreq, beatFreq: 6, leftFreq: baseFreq, rightFreq: baseFreq + 6 };
-      case 'gamma': // High focus, problem solving (40 Hz)
+      case 'beta': // Active study, cognitive enhancement, sentence comprehension (16 Hz)
+        return { baseFreq, beatFreq: 16, leftFreq: baseFreq, rightFreq: baseFreq + 16 };
+      case 'gamma': // Peak focus, neural entrainment, problem solving (40 Hz)
         return { baseFreq, beatFreq: 40, leftFreq: baseFreq, rightFreq: baseFreq + 40 };
       case 'alpha': // Flow state, relaxed concentration (10 Hz)
       default:

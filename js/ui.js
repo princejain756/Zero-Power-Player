@@ -65,6 +65,9 @@ export class UIController {
         btnHotkeys: document.getElementById('btn-hotkeys'),
         hotkeysModal: document.getElementById('hotkeys-modal'),
         btnHotkeysClose: document.getElementById('btn-hotkeys-close'),
+        btnBinauralInfo: document.getElementById('btn-binaural-info'),
+        binauralModal: document.getElementById('binaural-modal'),
+        btnBinauralClose: document.getElementById('btn-binaural-close'),
         customModal: document.getElementById('custom-timer-modal'),
         customFocusInput: document.getElementById('custom-focus-input'),
         customBreakInput: document.getElementById('custom-break-input'),
@@ -330,6 +333,18 @@ export class UIController {
     this.dom.btnHotkeysClose.addEventListener('click', () => {
       this.dom.hotkeysModal.classList.remove('active');
     });
+
+    // Binaural Beats Science Modal
+    if (this.dom.btnBinauralInfo) {
+      this.dom.btnBinauralInfo.addEventListener('click', () => {
+        this.dom.binauralModal.classList.add('active');
+      });
+    }
+    if (this.dom.btnBinauralClose) {
+      this.dom.btnBinauralClose.addEventListener('click', () => {
+        this.dom.binauralModal.classList.remove('active');
+      });
+    }
   }
 
   async handleFileSelection(files) {

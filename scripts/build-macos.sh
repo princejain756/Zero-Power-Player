@@ -26,7 +26,7 @@ chmod +x "${MACOS_DIR}/ZeroPowerPlayer"
 
 # 3. Copy web assets to www/
 echo "📦 Packaging web application assets..."
-cp -r index.html icon.png css js manifest.json sw.js "${WWW_DIR}/"
+cp -r index.html icon.png icon_macos.png css js manifest.json sw.js "${WWW_DIR}/"
 
 # 4. Generate AppIcon.icns with Apple HIG squircle
 if [ -f "LOGOUSE THIS.png" ]; then

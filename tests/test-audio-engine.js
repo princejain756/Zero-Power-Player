@@ -18,6 +18,12 @@ test('Binaural beat presets calculate correct left and right ear frequencies', (
   const theta = AudioEngine.getBinauralFrequencies('theta');
   assert.equal(theta.beatFreq, 6, 'Theta beat frequency is 6 Hz');
 
+  const beta = AudioEngine.getBinauralFrequencies('beta');
+  assert.equal(beta.beatFreq, 16, 'Beta beat frequency is 16 Hz');
+
   const gamma = AudioEngine.getBinauralFrequencies('gamma');
   assert.equal(gamma.beatFreq, 40, 'Gamma beat frequency is 40 Hz');
+
+  const delta = AudioEngine.getBinauralFrequencies('delta');
+  assert.equal(delta.beatFreq, 2, 'Delta beat frequency is 2 Hz');
 });
